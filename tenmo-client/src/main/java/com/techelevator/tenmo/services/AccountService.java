@@ -11,10 +11,17 @@ import java.math.BigDecimal;
 @Service
 public class AccountService {
 
-private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate = new RestTemplate();
 
+    public AccountService()
+    {
 
-//public Account getBalance(BigDecimal balance) {
-//
-//}
+    }
+
+    public BigDecimal getBalance() {
+
+        BigDecimal balance = new BigDecimal("1000.00");
+        System.out.println("Current Balance: " );
+        return balance;
+    }
 }
