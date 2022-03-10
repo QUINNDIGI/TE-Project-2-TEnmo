@@ -4,10 +4,12 @@ import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
-public class JdbcAccountDao {
+@Component
+public class JdbcAccountDao implements AccountDao{
 
     private Long accountId;
     private Long userId;
@@ -18,16 +20,19 @@ public class JdbcAccountDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Account getBalance(Long accountId, Long userId) {
-        String sql = "SELECT a.user_id, a.account_id FROM account a\n" +
+    public  BigDecimal getBalance(Long accountId, Long userId) {
+        String sql = "SELECT balance FROM account a\n" +
                 "JOIN tenmo_user tu ON a.user_id = tu.user_id\n" +
                 "WHERE user_id = ? AND account_id = ?";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId, accountId);
         if (result.next()) {
-            return mapRowToAccount(result);
+            Account account = mapRowToAccount(result);
+            return account.getBalance();
         }
         return null;
     }
+
+
 
     private Account mapRowToAccount(SqlRowSet rowSet) {
         Account account = new Account();
