@@ -3,20 +3,28 @@ package com.techelevator.tenmo.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public class Transfer {
 
     @JsonProperty("transfer_id")
+    @NotNull
     private Long transferId;
+    @NotNull
     @JsonProperty("transfer_type_id")
+    @NotNull
     private Long transferTypeId;
+    @NotNull
     @JsonProperty("transfer_status_id")
     private Long transferStatusId;
+    @NotNull
     @JsonProperty("account_from")
     private Long accountFrom;
+    @NotNull
     @JsonProperty("account_to")
     private Long accountTo;
+    @NotNull
     @JsonProperty("amount")
     private BigDecimal amount;
 
