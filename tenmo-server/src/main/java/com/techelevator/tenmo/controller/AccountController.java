@@ -34,25 +34,13 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    //@ResponseStatus(HttpStatus.)
     @RequestMapping(value = "/getBalance", method = RequestMethod.GET)
     public BigDecimal getBalance(Principal userInfo) {
 
         BigDecimal balance = new BigDecimal("750.00");
 
         balance = accountService.getBalance(userInfo);
-       //   balance = restTemplate.getForObject("http://localhost:5432/tenmo/" + "getBalance", BigDecimal.class);
 
-        //System.out.println(userInfo.getName());
-
-        //balance = accountDao.getBalance();
-
-//        } catch (RestClientResponseException ex) {
-//
-//            BasicLogger.log("API Error: " + ex.getRawStatusCode() + " " + ex.getStatusText());
-//        } catch (ResourceAccessException ex) {
-//            BasicLogger.log("API Error: " + ex.getMessage());
-//        }
         return balance;
     }
 
