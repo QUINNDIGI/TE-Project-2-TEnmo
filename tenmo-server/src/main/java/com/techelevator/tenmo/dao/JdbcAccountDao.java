@@ -22,7 +22,7 @@ public class JdbcAccountDao {
         String sql = "SELECT a.user_id, a.account_id FROM account a\n" +
                 "JOIN tenmo_user tu ON a.user_id = tu.user_id\n" +
                 "WHERE user_id = ? AND account_id = ?";
-        SqlRowSet result = jdbcTemplate.queryForRowSet(sql);
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId, accountId);
         if (result.next()) {
             return mapRowToAccount(result);
         }
@@ -37,13 +37,4 @@ public class JdbcAccountDao {
         return account;
     }
 
-
-//    private User mapRowToUser(SqlRowSet rs) {
-//        User user = new User();
-//        user.setId(rs.getLong("user_id"));
-//        user.setUsername(rs.getString("username"));
-//        user.setPassword(rs.getString("password_hash"));
-//        user.setActivated(true);
-//        user.setAuthorities("USER");
-//        return user;
 }
