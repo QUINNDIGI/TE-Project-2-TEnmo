@@ -1,7 +1,7 @@
 package com.techelevator.tenmo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
