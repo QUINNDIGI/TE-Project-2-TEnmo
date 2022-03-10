@@ -2,9 +2,10 @@ package com.techelevator.tenmo.dao;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-
+@Component
 public class JdbcTransferDao {
 
     private Long transferId;
