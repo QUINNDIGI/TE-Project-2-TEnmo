@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 
 @RestController
-@PreAuthorize("isAuthenticated()")
+//@PreAuthorize("isAuthenticated()")
 public class AccountController {
 
     private JdbcTemplate jdbcTemplate;
