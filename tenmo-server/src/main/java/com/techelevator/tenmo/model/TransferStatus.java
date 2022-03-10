@@ -3,10 +3,14 @@ package com.techelevator.tenmo.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import javax.validation.constraints.NotNull;
+
 public class TransferStatus {
 
+    @NotNull
     @JsonProperty("transfer_status_id")
     private Long transferStatusId;
+    @NotNull
     @JsonProperty("transfer_status_desc")
     private String transferStatusDescription;
 
