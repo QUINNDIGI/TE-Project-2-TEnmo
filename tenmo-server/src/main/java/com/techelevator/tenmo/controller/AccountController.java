@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.controller;
 
+import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.dao.JdbcAccountDao;
 import com.techelevator.util.BasicLogger;
 
@@ -17,32 +18,33 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 
 @RestController
+@RequestMapping("/tenmo")
 //@PreAuthorize("isAuthenticated()")
 public class AccountController {
 
-    private JdbcTemplate jdbcTemplate;
+    private AccountDao accountDao;
     private RestTemplate restTemplate;
 
-    AccountController (JdbcTemplate jdbcTemplate)
+    public AccountController (AccountDao jdbcTemplate)
     {
-        this.jdbcTemplate = jdbcTemplate;
+        this.accountDao = jdbcTemplate;
+        this.restTemplate = new RestTemplate();
     }
 
     //@ResponseStatus(HttpStatus.)
     @RequestMapping(value = "/getBalance", method = RequestMethod.GET)
-    public BigDecimal getBalance() {
+    public BigDecimal getBalance(Long accountId, Long userId) {
 
         BigDecimal balance = new BigDecimal("1000.00");
-        try {
-            balance = restTemplate.getForObject("http://localhost:5432/tenmo/" + "getBalance", BigDecimal.class);
-            //restTemplate.exchange()
+       //   balance = restTemplate.getForObject("http://localhost:5432/tenmo/" + "getBalance", BigDecimal.class);
+        balance = accountDao.getBalance(accountId, userId);
 
-        } catch (RestClientResponseException ex) {
-            
-            BasicLogger.log("API Error: " + ex.getRawStatusCode() + " " + ex.getStatusText());
-        } catch (ResourceAccessException ex) {
-            BasicLogger.log("API Error: " + ex.getMessage());
-        }
+//        } catch (RestClientResponseException ex) {
+//
+//            BasicLogger.log("API Error: " + ex.getRawStatusCode() + " " + ex.getStatusText());
+//        } catch (ResourceAccessException ex) {
+//            BasicLogger.log("API Error: " + ex.getMessage());
+//        }
         return balance;
     }
 
