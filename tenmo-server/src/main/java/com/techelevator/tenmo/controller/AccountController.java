@@ -2,6 +2,9 @@ package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.dao.JdbcAccountDao;
+import com.techelevator.tenmo.dao.JdbcUserDao;
+import com.techelevator.tenmo.dao.UserDao;
+import com.techelevator.tenmo.service.AccountService;
 import com.techelevator.util.BasicLogger;
 
 import org.springframework.http.HttpHeaders;
@@ -16,28 +19,33 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/tenmo")
-//@PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("isAuthenticated()")
 public class AccountController {
+        ///private JdbcUserDao userDao = new ;
+        private JdbcAccountDao accountDao;
+        private AccountService accountService;
 
-    private AccountDao accountDao;
-    private RestTemplate restTemplate;
-
-    public AccountController (AccountDao jdbcTemplate)
-    {
-        this.accountDao = jdbcTemplate;
-        this.restTemplate = new RestTemplate();
+    public AccountController(JdbcAccountDao accountDao, AccountService accountService) {
+        this.accountDao = accountDao;
+        this.accountService = accountService;
     }
 
     //@ResponseStatus(HttpStatus.)
     @RequestMapping(value = "/getBalance", method = RequestMethod.GET)
-    public BigDecimal getBalance(Long accountId, Long userId) {
+    public BigDecimal getBalance(Principal userInfo) {
 
-        BigDecimal balance = new BigDecimal("1000.00");
+        BigDecimal balance = new BigDecimal("750.00");
+
+        balance = accountService.getBalance(userInfo);
        //   balance = restTemplate.getForObject("http://localhost:5432/tenmo/" + "getBalance", BigDecimal.class);
-        balance = accountDao.getBalance(accountId, userId);
+
+        //System.out.println(userInfo.getName());
+
+        //balance = accountDao.getBalance();
 
 //        } catch (RestClientResponseException ex) {
 //
