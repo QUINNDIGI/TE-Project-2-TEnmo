@@ -35,7 +35,7 @@ public class AccountController {
         BigDecimal balance = new BigDecimal("1000.00");
         try {
             balance = restTemplate.getForObject("http://localhost:5432/tenmo/" + "getBalance", BigDecimal.class);
-
+            //restTemplate.exchange()
 
         } catch (RestClientResponseException ex) {
             
