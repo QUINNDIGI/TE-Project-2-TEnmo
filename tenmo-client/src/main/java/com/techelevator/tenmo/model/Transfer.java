@@ -14,7 +14,7 @@ public class Transfer {
 
     private Long accountFrom;
 
-    private Long accountTo;
+    private Integer accountTo;
 
     private BigDecimal amount;
 
@@ -50,11 +50,11 @@ public class Transfer {
         this.accountFrom = accountFrom;
     }
 
-    public Long getAccountTo() {
+    public Integer getAccountTo() {
         return accountTo;
     }
 
-    public void setAccountTo(Long accountTo) {
+    public void setAccountTo(Integer accountTo) {
         this.accountTo = accountTo;
     }
 
