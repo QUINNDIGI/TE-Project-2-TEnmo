@@ -65,7 +65,7 @@ public class TransferService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(user.getToken());
         Transfer transfer = new Transfer();
-
+        //Long toUserLong = toUser;
         transfer.setAccountTo (toUser);
         transfer.setAccountFrom (user.getUser().getId());
         transfer.setAmount(amount);
@@ -79,10 +79,10 @@ public class TransferService {
             if (returnedTransfer != null) {
 
             }
-            return userList;
+            //return returnedTransfer;
         } catch (RestClientResponseException | ResourceAccessException e) {
             com.techelevator.util.BasicLogger.log(e.getMessage());
         }
-        return null;
+        //return null;
     }
 }
