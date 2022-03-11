@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 public class Transfer {
 
     @JsonProperty("transfer_id")
-    @NotNull
     private Long transferId;
     @NotNull
     @JsonProperty("transfer_type_id")
@@ -24,7 +23,7 @@ public class Transfer {
     private Long accountFrom;
     @NotNull
     @JsonProperty("account_to")
-    private int accountTo;
+    private Integer accountTo;
     @NotNull
     @JsonProperty("amount")
     @DecimalMin(value="0.01")
