@@ -34,11 +34,11 @@ public class TransferService {
         transfer.setAmount(amount);
         transfer.setAccountFrom (fromUser);
         transfer.setAccountTo(toUser);
-        transfer.setTransferStatusId(2);
-        transfer.setTransferTypeId(2);
+        transfer.setTransferStatusId(2L);
+        transfer.setTransferTypeId(2L);
 
-        transferDao.makeTransfer(Transfer);
-
+        transferDao.makeTransfer(transfer);
+        return transfer;
     }
 
 
