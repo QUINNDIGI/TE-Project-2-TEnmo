@@ -2,12 +2,16 @@ package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
+import com.techelevator.tenmo.services.TransferService;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class App {
 
@@ -19,6 +23,8 @@ public class App {
     private AuthenticatedUser currentUser;
 
     private AccountService accountService = new AccountService(API_BASE_URL);
+    private TransferService transferService = new TransferService(API_BASE_URL);
+
 
     public static void main(String[] args) {
         App app = new App();
@@ -71,6 +77,7 @@ public class App {
         while (menuSelection != 0) {
             consoleService.printMainMenu();
             menuSelection = consoleService.promptForMenuSelection("Please choose an option: ");
+
             if (menuSelection == 1) {
                 viewCurrentBalance();
             } else if (menuSelection == 2) {
@@ -106,8 +113,20 @@ public class App {
 	}
 
 	private void sendBucks() {
-		// TODO Auto-generated method stub
-		
+		List<User> userList = new ArrayList<>();
+
+        transferService.listUsers(currentUser);
+        int userId = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel):");
+
+
+        if (userId != 0) {
+
+            BigDecimal amount = consoleService.promptForBigDecimal("Enter amount: ");
+
+            transferService.transferToUser(currentUser, userId, amount);
+
+
+        }
 	}
 
 	private void requestBucks() {
