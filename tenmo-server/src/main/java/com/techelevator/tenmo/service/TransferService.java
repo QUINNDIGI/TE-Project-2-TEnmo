@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.List;
 
 @Service
 public class TransferService {
@@ -15,25 +16,16 @@ public class TransferService {
     private JdbcUserDao userDao;
     private JdbcTransferDao transferDao;
 
-    public TransferService (JdbcUserDao transferDao, JdbcUserDao userDao)
+    public TransferService (JdbcTransferDao transferDao, JdbcUserDao userDao)
     {
 
         this.transferDao = transferDao;
-        this.userDao = accountDao;
+        this.userDao = userDao;
     }
-    /*public BigDecimal getBalance(Principal userInfo)
+
+    public List<User> listUsers(Principal userInfo)
     {
-        BigDecimal balance = new BigDecimal ("500.00");
-
-        String username = userInfo.getName();
-        User user = userDao.findByUsername(username);
-        Long userId = user.getId();
-        balance = accountDao.getBalance(userId);
-
-        return balance;
-    }*/
-
-
-
-
+        List<User> userList = transferDao.listUsers(userInfo);
+        return userList;
+    }
 }
