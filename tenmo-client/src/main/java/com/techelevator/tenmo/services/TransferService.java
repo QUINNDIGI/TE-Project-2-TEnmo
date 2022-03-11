@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.services;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -60,6 +61,28 @@ public class TransferService {
 
     public void transferToUser (AuthenticatedUser user, int toUser, BigDecimal amount )
     {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(user.getToken());
+        Transfer transfer = new Transfer();
 
+        transfer.setAccountTo (toUser);
+        transfer.setAccountFrom (user.getUser().getId());
+        transfer.setAmount(amount);
+
+        HttpEntity<Transfer> entity = new HttpEntity<Transfer>(headers);
+
+        try {
+
+            ResponseEntity<Transfer>  response = restTemplate.exchange(baseUrl +"/tenmo/transfer", HttpMethod.POST, entity, Transfer.class);
+            Transfer returnedTransfer = response.getBody();
+            if (returnedTransfer != null) {
+
+            }
+            return userList;
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            com.techelevator.util.BasicLogger.log(e.getMessage());
+        }
+        return null;
     }
 }
