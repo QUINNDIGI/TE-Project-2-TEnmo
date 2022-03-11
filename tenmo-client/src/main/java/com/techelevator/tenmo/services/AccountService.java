@@ -29,20 +29,16 @@ public class AccountService {
         headers.setBearerAuth(user.getToken());
         HttpEntity<Void> entity = new HttpEntity<>(headers);
         BigDecimal balance;
-        //Account returnedAccount = null;
         try {
 
         balance  = restTemplate.exchange(baseUrl +"/tenmo/" + "getBalance", HttpMethod.GET, entity, BigDecimal.class).getBody();
 
-            //).postForObject( API_BASE_URL +"/tenmo/" + "getBalance", entity, Account.class);
+
             return balance;
         } catch (RestClientResponseException | ResourceAccessException e) {
             com.techelevator.util.BasicLogger.log(e.getMessage());
         }
         return null;
-        //BigDecimal balance = new BigDecimal("1000.00");
-        //System.out.println("Current Balance: " );
 
-        //return null;
     }
 }
