@@ -3,6 +3,7 @@ package com.techelevator.tenmo.service;
 import com.techelevator.tenmo.dao.JdbcAccountDao;
 import com.techelevator.tenmo.dao.JdbcTransferDao;
 import com.techelevator.tenmo.dao.JdbcUserDao;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import org.springframework.stereotype.Service;
 
@@ -28,4 +29,17 @@ public class TransferService {
         List<User> userList = transferDao.listUsers(userInfo);
         return userList;
     }
+    public Transfer makeTransfer(Long fromUser, int toUser, BigDecimal amount) {
+        Transfer transfer = new Transfer();
+        transfer.setAmount(amount);
+        transfer.setAccountFrom (fromUser);
+        transfer.setAccountTo(toUser);
+        transfer.setTransferStatusId(2);
+        transfer.setTransferTypeId(2);
+
+        transferDao.makeTransfer(Transfer);
+
+    }
+
+
 }
