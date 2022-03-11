@@ -60,24 +60,24 @@ public class JdbcTransferDao {
         Long transferTypeId = transfer.getTransferTypeId();
         Long transferStatusId = transfer.getTransferStatusId();
         Long accountFrom = transfer.getAccountFrom();
-        Long accountTo = transfer.getAccountTo();
+        int accountTo = transfer.getAccountTo();
         BigDecimal amount = transfer.getAmount();
 
         jdbcTemplate.update(sql, transferTypeId, transferStatusId, accountFrom, accountTo, amount);
 
         sql = "SELECT balance FROM account " +
                 "WHERE account_id = ? ";
-        BigDecimal fromBalance = jdbcTemplate.queryForObject(sql, accountFrom);
+        BigDecimal fromBalance = jdbcTemplate.queryForObject(sql, BigDecimal.class, accountFrom);
 
         fromBalance =fromBalance.subtract(amount);
 
         sql = "UPDATE account SET balance = ? WHERE account_id = ?";
 
-        jdbcTemplate.update(sql, fromBalance, accountFRom);
+        jdbcTemplate.update(sql, fromBalance, accountFrom);
 
         sql = "SELECT balance FROM account " +
                 "WHERE account_id = ? ";
-        BigDecimal toBalance = jdbcTemplate.queryForObject(sql, accountTo);
+        BigDecimal toBalance = jdbcTemplate.queryForObject(sql, BigDecimal.class, accountTo);
 
         toBalance = toBalance.add(amount);
 
@@ -85,7 +85,7 @@ public class JdbcTransferDao {
 
         jdbcTemplate.update(sql, toBalance, accountTo);
 
-
+        return transfer;
     }
 
     public List<User> create(Principal userInfo, Transfer transfer) {
