@@ -6,16 +6,17 @@ import java.math.BigDecimal;
 
 public class Transfer {
 
+    @JsonProperty("transfer_id")
     private Long transferId;
-
+    @JsonProperty("transfer_type_id")
     private Long transferTypeId;
-
+    @JsonProperty("transfer_status_id")
     private Long transferStatusId;
-
+    @JsonProperty("account_from")
     private Long accountFrom;
-
+    @JsonProperty("account_to")
     private Integer accountTo;
-
+    @JsonProperty("amount")
     private BigDecimal amount;
 
     public Long getTransferId() {
