@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public class Account {
 
     private Long accountId;
-    private Long userId;
+    private int userId;
     private BigDecimal balance;
 
     public Long getAccountId() {
@@ -16,11 +16,11 @@ public class Account {
         this.accountId = accountId;
     }
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
