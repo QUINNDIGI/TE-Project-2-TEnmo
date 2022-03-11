@@ -125,7 +125,6 @@ public class App {
 
             transferService.transferToUser(currentUser, userId, amount);
 
-
         }
 	}
 
