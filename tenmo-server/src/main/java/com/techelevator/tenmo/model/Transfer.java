@@ -24,10 +24,10 @@ public class Transfer {
     private Long accountFrom;
     @NotNull
     @JsonProperty("account_to")
-    private Long accountTo;
+    private int accountTo;
     @NotNull
     @JsonProperty("amount")
-    @DecimalMin(value="0.01", false)
+    @DecimalMin(value="0.01")
     private BigDecimal amount;
 
     public Long getTransferId() {
@@ -62,11 +62,11 @@ public class Transfer {
         this.accountFrom = accountFrom;
     }
 
-    public Long getAccountTo() {
+    public int getAccountTo() {
         return accountTo;
     }
 
-    public void setAccountTo(Long accountTo) {
+    public void setAccountTo(int accountTo) {
         this.accountTo = accountTo;
     }
 
