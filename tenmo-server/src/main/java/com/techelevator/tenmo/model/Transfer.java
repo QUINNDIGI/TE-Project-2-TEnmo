@@ -3,6 +3,7 @@ package com.techelevator.tenmo.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -26,6 +27,7 @@ public class Transfer {
     private Long accountTo;
     @NotNull
     @JsonProperty("amount")
+    @DecimalMin(value="0.01", false)
     private BigDecimal amount;
 
     public Long getTransferId() {
