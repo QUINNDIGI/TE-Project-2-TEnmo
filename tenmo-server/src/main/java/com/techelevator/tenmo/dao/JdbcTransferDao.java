@@ -113,7 +113,20 @@ public class JdbcTransferDao {
                 "WHERE account_from = ?";
 
 
-        SqlRowSet transferRows = jdbcTemplate.queryForRowSet(sql, userAccount);
+            SqlRowSet transferRows = jdbcTemplate.queryForRowSet(sql, userAccount);
+
+            while (transferRows.next())
+            {
+                Transfer transfer = mapRowToTransfer(transferRows);
+
+                ApiTransfer apiTransfer = apiTransferService.createTransferApiObject(transfer, transfer.getAccountFrom(), transfer.getAccountTo());
+                apiTransferList.add(apiTransfer);
+
+            }
+        sql = "SELECT * from transfer "+
+                "WHERE account_to = ?";
+
+        transferRows = jdbcTemplate.queryForRowSet(sql, userAccount);
 
         while (transferRows.next())
         {
