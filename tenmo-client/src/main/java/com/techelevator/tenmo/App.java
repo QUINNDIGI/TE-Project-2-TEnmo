@@ -100,6 +100,7 @@ public class App {
 	}
 
 	private void viewTransferHistory() {
+
         transferService.getTransferHistory(currentUser);
 		
 	}
