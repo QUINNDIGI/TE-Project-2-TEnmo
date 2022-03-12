@@ -87,7 +87,26 @@ public class TransferService {
         }
 
     }
+    public void printTransferList(List<ApiTransfer> transferApiList, AuthenticatedUser user)
+    {
+        System.out.println("___________________________________________________");
+        System.out.println("Transfers ID    From/To                      Amount");
+        System.out.println("___________________________________________________");
 
+        for (ApiTransfer apiTransfer: transferApiList) {
+            String username = "";
+            if (user.getUser().getUsername().equals( apiTransfer.getFromUsername())) {
+                username = apiTransfer.getToUsername();
+            } else {
+                username = apiTransfer.getFromUsername();
+            }
+
+            System.out.println(apiTransfer.getTransferId()+"           " +username +"               " + apiTransfer.getAmount());
+
+
+
+        }
+    }
     public void printTransferDetails(ApiTransfer transferApi)
     {
         System.out.println("___________________________________________________");
