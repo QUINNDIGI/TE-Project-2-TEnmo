@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.dao;
 
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.ApiTransfer;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
@@ -8,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import javax.sql.rowset.JdbcRowSet;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -57,7 +59,7 @@ public class JdbcTransferDao {
     public Transfer makeTransfer(Transfer transfer)
     {
         String sql = "INSERT INTO transfer (transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount) "+
-                "VALUES (DEFAULT, ?, ?, ?, ?, ?)";
+                "VALUES (DEFAULT, ?, ?, ?, ?, ?) RETURNING transfer_id";
 
         Long transferTypeId = transfer.getTransferTypeId();
         Long transferStatusId = transfer.getTransferStatusId();
@@ -65,7 +67,8 @@ public class JdbcTransferDao {
         int accountTo = transfer.getAccountTo();
         BigDecimal amount = transfer.getAmount();
 
-        jdbcTemplate.update(sql, transferTypeId, transferStatusId, accountFrom, accountTo, amount);
+        Long transferId = jdbcTemplate.queryForObject(sql, Long.class, transferTypeId, transferStatusId, accountFrom, accountTo, amount);
+
 
         sql = "SELECT balance FROM account " +
                 "WHERE account_id = ? ";
@@ -87,52 +90,43 @@ public class JdbcTransferDao {
 
         jdbcTemplate.update(sql, toBalance, accountTo);
 
-
+        transfer.setTransferId(transferId);
 //        ApiTransfer apiTransfer = apiTransferService.createTransferApiObject(transfer, fromUserId, toUserId);
 
         return transfer;
     }
 
-    public List<User> create(Principal userInfo, Transfer transfer) {
+    public List<ApiTransfer> getPastTransfers(Long userId)
+    {
 
-        String sql = "INSERT INTO * from transfer " +
-                "JOIN transfer_status ON transfer.transfer_status_id = transfer_status.transfer_status_id "+
-                "JOIN transfer_type ON transfer.transfer_type_id = transfer_type.transfer_type_id " +
-                "JOIN account ON transfer.account_from = account.account_id " +
-                "JOIN tenmo_user ON account.user_id = tenmo_user.user_id";
-        SqlRowSet result = jdbcTemplate.queryForRowSet(sql);
-        List<User> userList = new ArrayList<>();
+        List<ApiTransfer> apiTransferList = new ArrayList<>();
+        String sql = "SELECT * from transfer "+
+                "WHERE account_from = ?";
 
-        while (result.next()) {
-            User user = mapRowToUser(result);
-            if (userInfo.getName() != user.getUsername())
-            {
-                userList.add(user);
-            }
+        SqlRowSet transferRows = jdbcTemplate.queryForRowSet(sql, userId);
+
+        while (transferRows.next())
+        {
+            Transfer transfer = mapRowToTransfer(transferRows);
+
+            ApiTransfer apiTransfer = apiTransferService.createTransferApiObject(transfer, transfer.getAccountFrom(), transfer.getAccountTo());
+            apiTransferList.add(apiTransfer);
+
         }
-        return userList;
+        return apiTransferList;
+    }
+
+    private Transfer mapRowToTransfer(SqlRowSet rowSet) {
+        Transfer transfer = new Transfer();
+        transfer.setTransferId(rowSet.getLong("transfer_id"));
+        transfer.setTransferTypeId(rowSet.getLong("transfer_type_id"));
+        transfer.setTransferStatusId(rowSet.getLong("transfer_status_id"));
+        transfer.setAccountFrom(rowSet.getLong("account_from"));
+        transfer.setAccountTo(rowSet.getInt("account_to"));
+        transfer.setAmount(rowSet.getBigDecimal("amount"));
+        return transfer;
     }
 
 
-
-    public List<User> pastTransfers(Principal userInfo) {
-
-        String sql = "SELECT * from transfer " +
-                "JOIN transfer_status ON transfer.transfer_status_id = transfer_status.transfer_status_id "+
-                "JOIN transfer_type ON transfer.transfer_type_id = transfer_type.transfer_type_id " +
-                "JOIN account ON transfer.account_from = account.account_id " +
-                "JOIN tenmo_user ON account.user_id = tenmo_user.user_id";
-        SqlRowSet result = jdbcTemplate.queryForRowSet(sql);
-        List<User> userList = new ArrayList<>();
-
-        while (result.next()) {
-            User user = mapRowToUser(result);
-            if (userInfo.getName() != user.getUsername())
-            {
-                userList.add(user);
-            }
-        }
-        return userList;
-    }
 
 }
