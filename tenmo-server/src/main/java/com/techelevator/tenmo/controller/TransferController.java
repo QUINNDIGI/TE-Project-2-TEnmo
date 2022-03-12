@@ -4,15 +4,10 @@ import com.techelevator.tenmo.dao.JdbcTransferDao;
 import com.techelevator.tenmo.model.ApiTransfer;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
-import com.techelevator.tenmo.service.AccountService;
 import com.techelevator.tenmo.service.ApiTransferService;
 import com.techelevator.tenmo.service.TransferService;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.xml.transform.TransformerFactory;
-import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +40,10 @@ public class TransferController {
     @RequestMapping(value = "/transfer", method = RequestMethod.POST)
     public ApiTransfer makeTransfer(@RequestBody Transfer transfer) {
 //TODO add @Valid back to above ^
-        Transfer returnedTransfer = transferService.makeTransfer(transfer.getAccountFrom(), transfer.getAccountTo(), transfer.getAmount());
-        ApiTransfer apiTransfer = apiTransferService.createTransferApiObject(returnedTransfer);
+        Long fromUserId = transfer.getAccountFrom();
+        int toUserId = transfer.getAccountTo();
+        Transfer returnedTransfer = transferService.makeTransfer(fromUserId, toUserId, transfer.getAmount());
+        ApiTransfer apiTransfer = apiTransferService.createTransferApiObject(returnedTransfer, fromUserId, toUserId);
         return apiTransfer;
     }
 }
