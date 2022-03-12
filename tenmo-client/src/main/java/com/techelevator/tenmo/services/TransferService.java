@@ -21,6 +21,7 @@ public class TransferService {
 
     public TransferService(String baseUrl)
     {
+
         this.baseUrl = baseUrl;
     }
 
@@ -78,7 +79,7 @@ public class TransferService {
             ResponseEntity<ApiTransfer>  response = restTemplate.exchange(baseUrl +"tenmo/transfer", HttpMethod.POST, entity, ApiTransfer.class);
             ApiTransfer apiTransfer = response.getBody();
             if (apiTransfer != null) {
-
+                printTransferDetails(apiTransfer);
             }
 
         } catch (RestClientResponseException | ResourceAccessException e) {
@@ -87,8 +88,41 @@ public class TransferService {
 
     }
 
-    public void printTransferInfo(ApiTransferService transferApi)
+    public void printTransferDetails(ApiTransfer transferApi)
     {
+        System.out.println("___________________________________________________");
+        System.out.println("Transfer Details");
+        System.out.println("___________________________________________________");
+        System.out.println("Id: " + transferApi.getTransferId());
+        System.out.println("From: " + transferApi.getFromUsername());
+        System.out.println("To: " + transferApi.getToUsername());
+        System.out.println("Type: " + transferApi.getTransferTypeDesc());
+        System.out.println("Status: " + transferApi.getTransferStatusDesc());
+        BigDecimal amount = transferApi.getAmount();
+        amount = amount.setScale(2);
+        System.out.println("Amount: " + amount);
+    }
+    public List<ApiTransfer> getTransferHistory(AuthenticatedUser user)
+    {
+        Long userId = user.getUser().getId();
+        //public BigDecimal getBalance(AuthenticatedUser user) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(user.getToken());
+        HttpEntity<Long> entity = new HttpEntity<>(userId, headers);
+        List<ApiTransfer> apiTransfers = new ArrayList<>();
+        try {
+
+            ResponseEntity<List<ApiTransfer>> response  = restTemplate.exchange(baseUrl +"/tenmo/alltransfers", HttpMethod.GET, entity, new ParameterizedTypeReference<List<ApiTransfer>>(){});
+            apiTransfers = response.getBody();
+
+            return apiTransfers;
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            com.techelevator.util.BasicLogger.log(e.getMessage());
+        }
+        return null;
+
 
     }
+
 }
