@@ -119,7 +119,7 @@ public class App {
         int userId = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel):");
 
 
-        if (userId != 0) {
+        if (userId != 0 ) {
 
             BigDecimal amount = consoleService.promptForBigDecimal("Enter amount: ");
 
