@@ -87,7 +87,7 @@ public class TransferService {
 
     }
 
-    public void printTransferInfo(TransferApi transferApi)
+    public void printTransferInfo(ApiTransferService transferApi)
     {
 
     }
