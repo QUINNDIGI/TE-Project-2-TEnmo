@@ -29,7 +29,7 @@ public class ApiTransferService {
             this.restTemplate = new RestTemplate();
         }
 
-        public ApiTransfer createTransferApiObject(Transfer transfer) {
+        public ApiTransfer createTransferApiObject(Transfer transfer, Long fromUserId, int toUserId) {
             ApiTransfer apiTransfer = new ApiTransfer();
             apiTransfer.setAccountFrom(transfer.getAccountFrom());
             apiTransfer.setAccountTo(transfer.getAccountTo());
@@ -52,14 +52,14 @@ public class ApiTransferService {
 
             sql = "SELECT username FROM tenmo_user "+
             "WHERE user_id = ?";
-            String fromUsername = jdbcTemplate.queryForObject(sql, String.class, apiTransfer.getAccountFrom());
+            String fromUsername = jdbcTemplate.queryForObject(sql, String.class, fromUserId);
 
             apiTransfer.setFromUsername(fromUsername);
 
 
             sql = "SELECT username FROM tenmo_user "+
                     "WHERE user_id = ?";
-            String toUsername = jdbcTemplate.queryForObject(sql, String.class, apiTransfer.getAccountTo());
+            String toUsername = jdbcTemplate.queryForObject(sql, String.class, toUserId);
 
             apiTransfer.setToUsername(toUsername);
 
