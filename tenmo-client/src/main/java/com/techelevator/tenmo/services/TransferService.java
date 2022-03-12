@@ -11,6 +11,7 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,6 +136,7 @@ public class TransferService {
             ResponseEntity<List<ApiTransfer>> response  = restTemplate.exchange(baseUrl +"/tenmo/alltransfers", HttpMethod.GET, entity, new ParameterizedTypeReference<List<ApiTransfer>>(){});
             apiTransfers = response.getBody();
 
+            printTransferList(apiTransfers, user);
             return apiTransfers;
         } catch (RestClientResponseException | ResourceAccessException e) {
             com.techelevator.util.BasicLogger.log(e.getMessage());
