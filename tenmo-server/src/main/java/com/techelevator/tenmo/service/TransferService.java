@@ -43,9 +43,6 @@ public class TransferService {
         transfer.setTransferStatusId(2L);
         transfer.setTransferTypeId(2L);
 
-
-
-
         transferDao.makeTransfer(transfer);
         return transfer;
     }
