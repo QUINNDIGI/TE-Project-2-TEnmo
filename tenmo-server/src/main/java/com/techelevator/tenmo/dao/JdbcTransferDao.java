@@ -96,10 +96,16 @@ public class JdbcTransferDao {
         return transfer;
     }
 
-    public List<ApiTransfer> getPastTransfers(Long userId)
+    public List<ApiTransfer> getPastTransfers(Principal userInfo)
     {
 
-        String sql = "SELECT account_id from account WHERE user_id = ?";
+        String username =  userInfo.getName();
+
+        String sql = "SELECT user_id from tenmo_user WHERE username = ?";
+
+        Long userId = jdbcTemplate.queryForObject(sql,Long.class, username);
+
+        sql = "SELECT account_id from account WHERE user_id = ?";
         Long userAccount = jdbcTemplate.queryForObject(sql, Long.class, userId);
 
         List<ApiTransfer> apiTransferList = new ArrayList<>();
