@@ -55,7 +55,7 @@ public class TransferService {
             System.out.println (user.getId() +"    "+ user.getUsername());
         }
         System.out.println ("___________________________________________________________");
-        System.out.println("Enter ID of user are sending to (0 to cancel): ");
+
 
     }
 
