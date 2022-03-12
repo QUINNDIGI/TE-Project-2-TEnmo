@@ -2,8 +2,10 @@ package com.techelevator.tenmo.dao;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.techelevator.tenmo.model.Account;
+import com.techelevator.tenmo.model.ApiTransfer;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
+import com.techelevator.tenmo.service.ApiTransferService;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -23,9 +25,11 @@ public class JdbcTransferDao {
     private Long accountTo;
     private BigDecimal amount;
     private final JdbcTemplate jdbcTemplate;
+    private ApiTransferService apiTransferService;
 
-    public JdbcTransferDao(JdbcTemplate jdbcTemplate) {
+    public JdbcTransferDao(JdbcTemplate jdbcTemplate, ApiTransferService apiTransferService) {
         this.jdbcTemplate = jdbcTemplate;
+        this.apiTransferService = apiTransferService;
     }
 
     public List<User> listUsers(Principal userInfo) {
@@ -52,7 +56,7 @@ public class JdbcTransferDao {
         return user;
     }
 
-    public Transfer makeTransfer(Transfer transfer)
+    public ApiTransfer makeTransfer(Transfer transfer)
     {
         String sql = "INSERT INTO transfer (transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount) "+
                 "VALUES (DEFAULT, ?, ?, ?, ?, ?)";
@@ -85,7 +89,10 @@ public class JdbcTransferDao {
 
         jdbcTemplate.update(sql, toBalance, accountTo);
 
-        return transfer;
+
+        ApiTransfer apiTransfer = apiTransferService.createTransferApiObject(transfer);
+
+        return apiTransfer;
     }
 
     public List<User> create(Principal userInfo, Transfer transfer) {
