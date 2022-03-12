@@ -1,7 +1,5 @@
 package com.techelevator.tenmo.dao;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.ApiTransfer;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
@@ -56,7 +54,7 @@ public class JdbcTransferDao {
         return user;
     }
 
-    public ApiTransfer makeTransfer(Transfer transfer)
+    public Transfer makeTransfer(Transfer transfer)
     {
         String sql = "INSERT INTO transfer (transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount) "+
                 "VALUES (DEFAULT, ?, ?, ?, ?, ?)";
@@ -90,9 +88,9 @@ public class JdbcTransferDao {
         jdbcTemplate.update(sql, toBalance, accountTo);
 
 
-        ApiTransfer apiTransfer = apiTransferService.createTransferApiObject(transfer);
+//        ApiTransfer apiTransfer = apiTransferService.createTransferApiObject(transfer, fromUserId, toUserId);
 
-        return apiTransfer;
+        return transfer;
     }
 
     public List<User> create(Principal userInfo, Transfer transfer) {
