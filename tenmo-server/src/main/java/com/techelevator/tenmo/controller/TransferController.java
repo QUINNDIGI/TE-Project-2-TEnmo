@@ -48,8 +48,8 @@ public class TransferController {
     }
 
     @RequestMapping(value = "/alltransfers", method = RequestMethod.GET)
-    public List<ApiTransfer> listPastTransfers(Long userId) {
-        List<ApiTransfer> apiTransferList = transferDao.getPastTransfers(userId);
+    public List<ApiTransfer> listPastTransfers(Principal userInfo) {
+        List<ApiTransfer> apiTransferList = transferDao.getPastTransfers(userInfo);
         return apiTransferList;
 
     }
