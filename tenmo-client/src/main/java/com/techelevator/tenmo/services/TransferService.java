@@ -31,7 +31,7 @@ public class TransferService {
         List<User> userList = new ArrayList<>();
         try {
 
-            ResponseEntity<List<User>>  response = restTemplate.exchange(baseUrl +"/tenmo/listUsers", HttpMethod.GET, entity, new ParameterizedTypeReference<List<User>>(){});
+            ResponseEntity<List<User>>  response = restTemplate.exchange(baseUrl +"tenmo/listUsers", HttpMethod.GET, entity, new ParameterizedTypeReference<List<User>>(){});
             userList = response.getBody();
             if (userList != null) {
                 printUserList(userList);
@@ -70,11 +70,11 @@ public class TransferService {
         transfer.setAccountFrom (user.getUser().getId());
         transfer.setAmount(amount);
 
-        HttpEntity<Transfer> entity = new HttpEntity<Transfer>(headers);
+        HttpEntity<Transfer> entity = new HttpEntity<>(transfer, headers);
 
         try {
 
-            ResponseEntity<Transfer>  response = restTemplate.exchange(baseUrl +"/tenmo/transfer", HttpMethod.POST, entity, Transfer.class);
+            ResponseEntity<Transfer>  response = restTemplate.exchange(baseUrl +"tenmo/transfer", HttpMethod.POST, entity, Transfer.class);
             Transfer returnedTransfer = response.getBody();
             if (returnedTransfer != null) {
 
