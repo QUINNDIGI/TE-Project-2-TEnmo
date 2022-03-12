@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.services;
 
+import com.techelevator.tenmo.model.ApiTransfer;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
@@ -74,15 +75,20 @@ public class TransferService {
 
         try {
 
-            ResponseEntity<Transfer>  response = restTemplate.exchange(baseUrl +"tenmo/transfer", HttpMethod.POST, entity, Transfer.class);
-            Transfer returnedTransfer = response.getBody();
-            if (returnedTransfer != null) {
+            ResponseEntity<ApiTransfer>  response = restTemplate.exchange(baseUrl +"tenmo/transfer", HttpMethod.POST, entity, ApiTransfer.class);
+            ApiTransfer apiTransfer = response.getBody();
+            if (apiTransfer != null) {
 
             }
-            //return returnedTransfer;
+
         } catch (RestClientResponseException | ResourceAccessException e) {
             com.techelevator.util.BasicLogger.log(e.getMessage());
         }
-        //return null;
+
+    }
+
+    public void printTransferInfo(TransferApi transferApi)
+    {
+
     }
 }
