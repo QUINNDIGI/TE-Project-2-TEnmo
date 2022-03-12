@@ -46,4 +46,11 @@ public class TransferController {
         ApiTransfer apiTransfer = apiTransferService.createTransferApiObject(returnedTransfer, fromUserId, toUserId);
         return apiTransfer;
     }
+
+    @RequestMapping(value = "/alltransfers", method = RequestMethod.GET)
+    public List<ApiTransfer> listPastTransfers(Long userId) {
+        List<ApiTransfer> apiTransferList = transferDao.getPastTransfers(userId);
+        return apiTransferList;
+
+    }
 }
