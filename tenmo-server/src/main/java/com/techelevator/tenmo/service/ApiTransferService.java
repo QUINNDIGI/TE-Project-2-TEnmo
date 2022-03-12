@@ -50,16 +50,22 @@ public class ApiTransferService {
 
             apiTransfer.setTransferTypeDesc(typeDesc);
 
-            sql = "SELECT username FROM tenmo_user "+
-            "WHERE user_id = ?";
-            String fromUsername = jdbcTemplate.queryForObject(sql, String.class, fromUserId);
+            sql = "SELECT user_id FROM account WHERE account_id = ?";
+            Long userIdFrom = jdbcTemplate.queryForObject(sql, Long.class, apiTransfer.getAccountFrom());
+
+
+            sql = "SELECT username FROM tenmo_user " +
+                    "WHERE user_id = ?";
+            String fromUsername = jdbcTemplate.queryForObject(sql, String.class, userIdFrom);
 
             apiTransfer.setFromUsername(fromUsername);
 
+            sql = "SELECT user_id FROM account WHERE account_id = ?";
+            Long userIdTo = jdbcTemplate.queryForObject(sql, Long.class, apiTransfer.getAccountTo());
 
             sql = "SELECT username FROM tenmo_user "+
                     "WHERE user_id = ?";
-            String toUsername = jdbcTemplate.queryForObject(sql, String.class, toUserId);
+            String toUsername = jdbcTemplate.queryForObject(sql, String.class, userIdTo);
 
             apiTransfer.setToUsername(toUsername);
 
