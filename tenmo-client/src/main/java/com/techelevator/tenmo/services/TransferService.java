@@ -64,11 +64,12 @@ public class TransferService {
 
     public void transferToUser (AuthenticatedUser user, int toUser, BigDecimal amount )
     {
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(user.getToken());
         Transfer transfer = new Transfer();
-        //Long toUserLong = toUser;
+
         transfer.setAccountTo (toUser);
         transfer.setAccountFrom (user.getUser().getId());
         transfer.setAmount(amount);
@@ -96,18 +97,16 @@ public class TransferService {
 
         for (ApiTransfer apiTransfer: transferApiList) {
             String currentUsername = user.getUser().getUsername();
-           String transferUsername = apiTransfer.getFromUsername();
+            String transferUsername = apiTransfer.getFromUsername();
             String username = "";
             if (currentUsername.equals(transferUsername )) {
                 username = "To: " + apiTransfer.getToUsername();
+
             } else {
                 username = "From: " + apiTransfer.getFromUsername();
             }
 
             System.out.println(apiTransfer.getTransferId()+"              " +username +"               $" + apiTransfer.getAmount());
-
-
-
         }
     }
     public void printTransferDetails(ApiTransfer transferApi)

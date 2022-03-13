@@ -123,11 +123,17 @@ public class App {
 
         transferService.listUsers(currentUser);
         int userId = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel):");
+        if (currentUser.getUser().getId().intValue() == userId)
+        {
+            System.out.println ("You cannot send money to yourself.");
+            return;
+        }
+
         BigDecimal balance = accountService.getBalance(currentUser);
 
         if (userId != 0 ) {
 
-            BigDecimal amount = consoleService.promptForBigDecimal("Enter amount: $");
+            BigDecimal amount = consoleService.promptForBigDecimal("Enter amount: $ ");
             int balanceCompare = balance.compareTo(amount);
             BigDecimal zero = new BigDecimal ("0.00");
             int compareToZero = amount.compareTo(zero);
