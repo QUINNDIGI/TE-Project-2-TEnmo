@@ -99,12 +99,12 @@ public class TransferService {
            String transferUsername = apiTransfer.getFromUsername();
             String username = "";
             if (currentUsername.equals(transferUsername )) {
-                username = apiTransfer.getToUsername();
+                username = "To: " + apiTransfer.getToUsername();
             } else {
-                username = apiTransfer.getFromUsername();
+                username = "From: " + apiTransfer.getFromUsername();
             }
 
-            System.out.println(apiTransfer.getTransferId()+"           " +username +"               " + apiTransfer.getAmount());
+            System.out.println(apiTransfer.getTransferId()+"              " +username +"               $" + apiTransfer.getAmount());
 
 
 
@@ -122,7 +122,7 @@ public class TransferService {
         System.out.println("Status: " + transferApi.getTransferStatusDesc());
         BigDecimal amount = transferApi.getAmount();
         amount = amount.setScale(2);
-        System.out.println("Amount: " + amount);
+        System.out.println("Amount: $" + amount);
     }
     public List<ApiTransfer> getTransferHistory(AuthenticatedUser user)
     {
