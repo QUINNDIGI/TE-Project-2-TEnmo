@@ -102,52 +102,56 @@ public class App {
 	private void viewTransferHistory() {
 
         List<ApiTransfer> listApiTransfers = transferService.getTransferHistory(currentUser);
-        int transferId=  consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel: ");
+        int transferId = consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel: ");
         if (transferId != 0) {
+            boolean isFound = (false);
 
             for (ApiTransfer apiTransfer : listApiTransfers) {
                 if (apiTransfer.getTransferId().intValue() == transferId) {
                     transferService.printTransferDetails(apiTransfer);
+                    isFound = true;
                 }
             }
-        }
-	}
-
-	private void viewPendingRequests() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void sendBucks() {
-		List<User> userList = new ArrayList<>();
-
-        transferService.listUsers(currentUser);
-        int userId = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel):");
-        if (currentUser.getUser().getId().intValue() == userId)
-        {
-            System.out.println ("You cannot send money to yourself.");
-            return;
-        }
-
-        BigDecimal balance = accountService.getBalance(currentUser);
-
-        if (userId != 0 ) {
-
-            BigDecimal amount = consoleService.promptForBigDecimal("Enter amount: $ ");
-            int balanceCompare = balance.compareTo(amount);
-            BigDecimal zero = new BigDecimal ("0.00");
-            int compareToZero = amount.compareTo(zero);
-            if (balanceCompare >=0  && compareToZero >= 0) {
-                transferService.transferToUser(currentUser, userId, amount);
+            if (!isFound) {
+                System.out.println("Transfer ID not found");
             }
-            else
-            {
-                System.out.println("The amount transferred must be less than or equal to the balance in your account.");
-                System.out.println("The amount transferred must be less than or equal to 0.");
+        }
+    }
+
+        private void viewPendingRequests () {
+            // TODO Auto-generated method stub
+
+        }
+
+        private void sendBucks () {
+            List<User> userList = new ArrayList<>();
+
+            transferService.listUsers(currentUser);
+            int userId = consoleService.promptForInt("Enter ID of user you are sending to (0 to cancel):");
+            if (currentUser.getUser().getId().intValue() == userId) {
+                System.out.println("You cannot send money to yourself.");
+                return;
             }
 
+            BigDecimal balance = accountService.getBalance(currentUser);
+
+            if (userId != 0) {
+
+                BigDecimal amount = consoleService.promptForBigDecimal("Enter amount: $ ");
+                int balanceCompare = balance.compareTo(amount);
+                BigDecimal zero = new BigDecimal("0.00");
+                int compareToZero = amount.compareTo(zero);
+                if (balanceCompare >= 0 && compareToZero >= 0) {
+                    transferService.transferToUser(currentUser, userId, amount);
+                } else {
+                    System.out.println("The amount transferred must be less than or equal to the balance in your account.");
+                    System.out.println("The amount transferred cannot be less than or equal to 0.");
+                }
+
+            }
         }
-	}
+
+
 
 	private void requestBucks() {
 		// TODO Auto-generated method stub
