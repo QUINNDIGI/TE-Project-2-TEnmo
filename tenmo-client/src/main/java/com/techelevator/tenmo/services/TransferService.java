@@ -100,13 +100,17 @@ public class TransferService {
             String transferUsername = apiTransfer.getFromUsername();
             String username = "";
             if (currentUsername.equals(transferUsername )) {
-                username = "To: " + apiTransfer.getToUsername();
+                username = "To:   " + apiTransfer.getToUsername();
 
             } else {
                 username = "From: " + apiTransfer.getFromUsername();
             }
 
-            System.out.println(apiTransfer.getTransferId()+"              " +username +"               $" + apiTransfer.getAmount());
+            System.out.println(apiTransfer.getTransferId()+"           " +username +"               $" + apiTransfer.getAmount());
+            //System.out.println(apiTransfer.getTransferId()+"           " +apiTransfer.getFromUsername() + " " + apiTransfer.getToUsername() + "            $" + apiTransfer.getAmount());
+
+
+
         }
     }
     public void printTransferDetails(ApiTransfer transferApi)
