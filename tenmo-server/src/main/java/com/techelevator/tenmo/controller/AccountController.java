@@ -23,7 +23,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/tenmo")
-    //@PreAuthorize("isAuthenticated()")
+@PreAuthorize("isAuthenticated()")
 public class AccountController {
         ///private JdbcUserDao userDao = new ;
         private JdbcAccountDao accountDao;

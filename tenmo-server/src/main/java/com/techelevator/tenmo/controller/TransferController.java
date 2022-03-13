@@ -6,6 +6,7 @@ import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.service.ApiTransferService;
 import com.techelevator.tenmo.service.TransferService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tenmo")
-//@PreAuthorize("isAuthenticated()")
+@PreAuthorize("isAuthenticated()")
 public class TransferController {
     JdbcTransferDao transferDao;
     TransferService transferService;
